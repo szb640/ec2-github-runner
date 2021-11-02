@@ -8,6 +8,7 @@ class Config {
       githubToken: core.getInput('github-token'),
       ec2ImageId: core.getInput('ec2-image-id'),
       ec2InstanceType: core.getInput('ec2-instance-type'),
+      ec2BaseOs: core.getInput('ec2-base-os'),
       subnetId: core.getInput('subnet-id'),
       securityGroupId: core.getInput('security-group-id'),
       label: core.getInput('label'),
@@ -43,8 +44,12 @@ class Config {
     }
 
     if (this.input.mode === 'start') {
-      if (!this.input.ec2ImageId || !this.input.ec2InstanceType || !this.input.subnetId || !this.input.securityGroupId) {
+      if (!this.input.ec2ImageId || !this.input.ec2InstanceType || !this.input.subnetId || !this.input.securityGroupId || !this.input.ec2BaseOs) {
         throw new Error(`Not all the required inputs are provided for the 'start' mode`);
+      }
+
+      if (this.input.ec2BaseOs !== 'win-x64' && this.input.ec2BaseOs !== 'linux-x64' && this.input.ec2BaseOs !== 'linux-arm' && this.input.ec2BaseOs !== 'linux-arm64') {
+        throw new Error(`Wrong base-os. Allowed values: win-x64, linux-x64, linux-arm or linux-arm64.`);
       }
     } else if (this.input.mode === 'stop') {
       if (!this.input.label || !this.input.ec2InstanceId) {
