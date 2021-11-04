@@ -103,8 +103,6 @@ async function startEc2Instance(label, githubRegistrationToken) {
     params.TagSpecifications = config.tagSpecifications;
   }
 
-  core.info(JSON.stringify(params));
-
   try {
     const result = await ec2.runInstances(params).promise();
     const ec2InstanceId = result.Instances[0].InstanceId;
