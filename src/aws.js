@@ -26,7 +26,7 @@ function buildUserDataScript(githubRegistrationToken, label) {
     }
     
     userData.push(
-      `./config.cmd --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label} --unattended --runasservice`,
+      `./config.cmd --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --name ${config.input.ec2BaseOs}-${label} --token ${githubRegistrationToken} --labels ${label} --unattended --runasservice`,
       '</powershell>',
     );
   }
@@ -50,7 +50,7 @@ function buildUserDataScript(githubRegistrationToken, label) {
     userData.push(
       'export RUNNER_ALLOW_RUNASROOT=1',
       'export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1',
-      `./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --token ${githubRegistrationToken} --labels ${label}`,
+      `./config.sh --url https://github.com/${config.githubContext.owner}/${config.githubContext.repo} --name ${config.input.ec2BaseOs}-${label} --token ${githubRegistrationToken} --labels ${label}`,
       './run.sh',
     );
   } else {
