@@ -74,6 +74,11 @@ inputs:
     description: >-
       Directory that contains actions-runner software and scripts. E.g. /home/runner/actions-runner.
     required: false
+  github-registration-timeout:
+    description: >-
+      Minutes to wait for GitHub runner registration before failing the start.
+    required: false
+    default: '5'
 outputs:
   label:
     description: >-

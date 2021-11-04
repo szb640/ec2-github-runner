@@ -6,6 +6,7 @@ class Config {
     this.input = {
       mode: core.getInput('mode'),
       githubToken: core.getInput('github-token'),
+      githubRegistrationTimeout: core.getInput('github-registration-timeout'),
       ec2ImageId: core.getInput('ec2-image-id'),
       ec2InstanceType: core.getInput('ec2-instance-type'),
       ec2BaseOs: core.getInput('ec2-base-os'),
@@ -34,6 +35,10 @@ class Config {
     //
     // validate input
     //
+
+    if (isNaN(parseInt(this.input.githubRegistrationTimeout))) {
+      throw new Error(`The 'github-registration-timeout' input is not an integer`);
+    }
 
     if (!this.input.mode) {
       throw new Error(`The 'mode' input is not specified`);
