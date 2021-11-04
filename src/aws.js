@@ -69,21 +69,41 @@ async function startEc2Instance(label, githubRegistrationToken) {
   const userData = buildUserDataScript(githubRegistrationToken, label);
 
   const params = {
-    ImageId: config.input.ec2ImageId,
-    InstanceType: config.input.ec2InstanceType,
     MinCount: 1,
     MaxCount: 1,
     UserData: Buffer.from(userData.join('\n')).toString('base64'),
-    SubnetId: config.input.subnetId,
-    SecurityGroupIds: [config.input.securityGroupId],
-    IamInstanceProfile: { Name: config.input.iamRoleName },
-    TagSpecifications: config.tagSpecifications,
   };
 
   if (config.input.ec2LaunchTemplate) {
     params.LaunchTemplate = {
       LaunchTemplateName: config.input.ec2LaunchTemplate
     };
+  }
+
+  if(config.input.ec2ImageId) {
+    params.ImageId = config.input.ec2ImageId;
+  }
+
+  if(config.input.ec2InstanceType) {
+    params.InstanceType = config.input.ec2InstanceType;
+  }
+
+  if(config.input.subnetId) {
+    params.SubnetId = config.input.subnetId;
+  }
+
+  if(config.input.securityGroupId) {
+    params.SecurityGroupIds = [config.input.securityGroupId];
+  }
+
+  if(config.input.iamRoleName) {
+    params.IamInstanceProfile = { 
+      Name: config.input.iamRoleName 
+    };
+  }
+
+  if(config.tagSpecifications) {
+    params.TagSpecifications = config.tagSpecifications;
   }
 
   try {
