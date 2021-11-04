@@ -15,6 +15,7 @@ class Config {
       ec2InstanceId: core.getInput('ec2-instance-id'),
       iamRoleName: core.getInput('iam-role-name'),
       runnerHomeDir: core.getInput('runner-home-dir'),
+      githubRegistrationTimeout: core.getInput('github-registration-timeout'),
     };
 
     const tags = JSON.parse(core.getInput('aws-resource-tags'));
@@ -41,6 +42,10 @@ class Config {
 
     if (!this.input.githubToken) {
       throw new Error(`The 'github-token' input is not specified`);
+    }
+
+    if (isNaN(parseInt(this.input.githubRegistrationTimeout))) {
+      throw new Error(`The 'github-registration-timeout' input is not an integer`);
     }
 
     if (this.input.mode === 'start') {
